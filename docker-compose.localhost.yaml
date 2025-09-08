@@ -1,0 +1,18 @@
+services:
+  traefik:
+    image: traefik:v3.5
+    ports:
+      - "80:81"
+      - "8080:8080"
+    command:
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--entrypoints.web.address=:81"
+      - "--providers.docker=true"
+    labels:
+      # 创建一个 router，匹配 Host 并指向 api@internal
+      - "traefik.http.routers.traefik.rule=Host(`docker.localhost`)"
+      - "traefik.http.routers.traefik.entrypoints=web"
+      - "traefik.http.routers.traefik.service=api@internal"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro  # 挂载 docker.sock

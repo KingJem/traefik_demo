@@ -1,0 +1,9 @@
+services:
+  traefik:
+    image: traefik:v3.5
+    ports:
+      - "8080:8080"
+    command:
+      - "--api=true"          # 开启dashboard 和api 
+      - "--api.dashboard=true" # 默认开启8080
+      - "--api.insecure=true" # 通过http方式访问
